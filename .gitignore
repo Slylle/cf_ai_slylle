@@ -21,6 +21,7 @@ build/
 # AI Tools
 .claude/
 .mcp.json
+CLAUDE.md
 
 # Wrangler / Cloudflare
 wrangler/

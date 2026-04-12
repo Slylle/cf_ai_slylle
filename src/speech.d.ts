@@ -1,3 +1,9 @@
+// Vite ?url import — resolves to a string URL at build time
+declare module "*?url" {
+  const url: string;
+  export default url;
+}
+
 // Web Speech API types (not yet in TypeScript's lib.dom.d.ts)
 interface SpeechRecognitionEvent extends Event {
   readonly results: SpeechRecognitionResultList;

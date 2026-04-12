@@ -1,0 +1,16 @@
+{
+  "name": "cloudflare-chatbot",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "ai": { "binding": "AI" },
+  "durable_objects": {
+    "bindings": [{ "name": "Chat", "class_name": "Chat" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Chat"] }],
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  }
+}

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# AI Tools
+.claude/
+.mcp.json
+
+# Wrangler / Cloudflare
+wrangler/
+.wrangler/
+.env.*.vars

@@ -20,7 +20,20 @@ function parseUserMessage(raw: string): { docNames: string[]; question: string }
 import { type ExtractedFile, extractText, isSupportedFile } from "./extractText";
 
 export default function App() {
-  const agent = useAgent({ agent: "chat" });
+  const [sessionId] = useState(() => {
+    if (typeof window === "undefined") return "default";
+
+    const storageKey = "chat-session-id";
+    const existing = window.localStorage.getItem(storageKey);
+    if (existing) return existing;
+
+    const generated = window.crypto?.randomUUID?.() ??
+      `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    window.localStorage.setItem(storageKey, generated);
+    return generated;
+  });
+
+  const agent = useAgent({ agent: "chat", name: sessionId });
   const { messages, sendMessage, isStreaming } = useAgentChat({ agent });
 
   const [input, setInput] = useState("");

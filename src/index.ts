@@ -5,11 +5,18 @@ import { createWorkersAI } from "workers-ai-provider";
 
 export interface Env {
   AI: Ai;
-  Chat: DurableObjectNamespace;
+  Chat: DurableObjectNamespace<Chat>;
   ASSETS: Fetcher;
 }
 
 const MAX_OUTPUT_TOKENS = 8192;
+
+type ChatRequestBody = {
+  documentMode?: boolean;
+  documentTitle?: string;
+  documentContent?: string;
+  userRequest?: string;
+};
 
 export class Chat extends AIChatAgent<Env> {
   async onChatMessage(
@@ -20,10 +27,24 @@ export class Chat extends AIChatAgent<Env> {
     const model = workersai("@cf/meta/llama-3.3-70b-instruct-fp8-fast");
 
     const messages = await convertToModelMessages(this.messages);
+    const body = options?.body as ChatRequestBody | undefined;
+
+    const system = body?.documentMode
+      ? [
+          "You are a helpful assistant that writes and revises documents.",
+          "Return only the document text.",
+          "If a draft is provided, treat it as the current working version and update it according to the user's request.",
+          body.documentTitle ? `Draft title: ${body.documentTitle}` : null,
+          body.documentContent ? `Current draft:\n${body.documentContent}` : null,
+          body.userRequest ? `User request:\n${body.userRequest}` : null,
+        ]
+          .filter((part): part is string => typeof part === "string" && part.length > 0)
+          .join("\n\n")
+      : "You are a helpful assistant.";
 
     const result = streamText({
       model,
-      system: "You are a helpful assistant.",
+      system,
       messages,
       maxOutputTokens: MAX_OUTPUT_TOKENS,
       abortSignal: options?.abortSignal,

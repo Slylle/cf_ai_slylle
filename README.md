@@ -7,8 +7,10 @@ An AI-powered chatbot built on Cloudflare's edge infrastructure. Supports text c
 ## Features
 
 - **Chat** — multi-turn conversations with persistent memory (history survives page refreshes)
+- **Chat history** — browse past chats in a sidebar and start a fresh chat with one click
 - **Voice input** — click the microphone button and speak; your message is sent automatically
 - **Document upload** — drag and drop or attach `.pdf`, `.txt`, `.md`, `.json` files; the model reads and answers questions about them
+- **Document drafting** — ask the chatbot to write a document and an editable draft panel opens beside the chat
 
 ## Stack
 
@@ -20,6 +22,7 @@ An AI-powered chatbot built on Cloudflare's edge infrastructure. Supports text c
 | Memory | Durable Object SQLite storage (per-session conversation history) |
 | Voice | Web Speech API (browser-native, Chrome/Edge) |
 | PDF parsing | PDF.js (client-side, no server upload) |
+| Draft editor | Side-panel textarea that syncs with document-writing requests and stays editable |
 
 ## Try it
 

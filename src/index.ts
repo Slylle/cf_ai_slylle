@@ -9,6 +9,8 @@ export interface Env {
   ASSETS: Fetcher;
 }
 
+const MAX_OUTPUT_TOKENS = 8192;
+
 export class Chat extends AIChatAgent<Env> {
   async onChatMessage(
     onFinish: StreamTextOnFinishCallback<ToolSet>,
@@ -23,6 +25,7 @@ export class Chat extends AIChatAgent<Env> {
       model,
       system: "You are a helpful assistant.",
       messages,
+      maxOutputTokens: MAX_OUTPUT_TOKENS,
       abortSignal: options?.abortSignal,
       onFinish,
     });
